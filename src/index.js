@@ -1,17 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import ReactDOM from 'react-dom/client'; // Update the import
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import './index.css'; // Ensure TailwindCSS is imported here
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faHome, faPlane, faSearch, faEnvelope, faFile, faBookmark, faUser, faLifeRing } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faHome, faPlane, faSearch, faEnvelope, faFile, faBookmark, faUser, faLifeRing);
+
+const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID'; // Replace with your actual client ID
+
+const root = ReactDOM.createRoot(document.getElementById('root')); // Update this line
 root.render(
   <React.StrictMode>
-    <App />
+  <App />
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
