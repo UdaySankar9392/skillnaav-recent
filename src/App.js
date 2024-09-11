@@ -12,7 +12,12 @@ import AdminCreateAccount from "./components/AdminFlow/AdminCreateAccount";
 import AdminLogin from "./components/AdminFlow/AdminLogin";
 import AdminVerificationCode from "./components/AdminFlow/AdminVerificationCode";
 import AdminMain from "./components/AdminFlow/AdminMain";
-
+import PatnerCreateAccount from "./components/PatnerFlow/PartnerCreateAccount";
+import PatnerRegistration from "./components/PatnerFlow/PartnerRegistration";
+import PatnerLogin from "./components/PatnerFlow/PartnerLogin";
+import PatnerVerification from "./components/PatnerFlow/PartnerVerification";
+import PatnerProfile from "./components/PatnerFlow/PartnerProfile";
+import PartnerMain from "./components/PatnerFlow/PartnerMain";
 
 import Cards from "./components/HomePage/Cards";
 import JobPosting from "./components/HomePage/JobPosting";
@@ -50,6 +55,14 @@ const App = () => {
               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/admin-verification-code" element={<AdminVerificationCode />} />
               <Route path="/admin-main" element={<AdminMain />} />
+
+              {/* Patner Flow */}
+              <Route path="/patner-create-account" element={<PatnerCreateAccount />} />
+              <Route path="/patner-registration" element={<PatnerRegistration />} />
+              <Route path="/patner-login" element={<PatnerLogin />} />
+              <Route path="/patner-verification" element={<PatnerVerification />} />
+              <Route path="/patner-profile" element={<PatnerProfile />} />
+              <Route path="/partner-main" element={<PartnerMain />} />
 
               {/* Job and Cards */}
               <Route path="/cards" element={<Cards onCardClick={handleCardClick} />} />

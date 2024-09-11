@@ -1,207 +1,113 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-const AdminUpdateJob = ({ job, onUpdate }) => {
-  const [jobTitle, setJobTitle] = useState('');
-  const [jobDescription, setJobDescription] = useState('');
-  const [jobType, setJobType] = useState('');
-  const [remoteType, setRemoteType] = useState('');
-  const [compensation, setCompensation] = useState('');
-  const [compensationType, setCompensationType] = useState('');
-  const [skills, setSkills] = useState([]);
-  const [location, setLocation] = useState([]);
+const AdminUpdateJob = ({ job, onClose, onSave }) => {
+  const [formData, setFormData] = useState({ ...job });
 
-  // Initialize form fields with job data when job prop changes
-  useEffect(() => {
-    if (job) {
-      setJobTitle(job.title);
-      setJobDescription(job.description);
-      setJobType(job.type);
-      setRemoteType(job.remoteType);
-      setCompensation(job.compensation);
-      setCompensationType(job.compensationType);
-      setSkills(job.skills);
-      setLocation(job.location);
-    }
-  }, [job]);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-  const handleUpdateJob = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    onUpdate({
-      ...job,
-      title: jobTitle,
-      description: jobDescription,
-      type: jobType,
-      remoteType,
-      compensation,
-      compensationType,
-      skills,
-      location,
-    });
+    // Call the onSave function to update the job
+    onSave(formData); // Pass updated form data
   };
 
   return (
-    <form className="font-poppins p-6 bg-white rounded-lg shadow-lg max-w-2xl mx-auto" onSubmit={handleUpdateJob}>
-      {/* Job Title */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="jobTitle">
-          Job Title
-        </label>
-        <input
-          id="jobTitle"
-          type="text"
-          value={jobTitle}
-          onChange={(e) => setJobTitle(e.target.value)}
-          className="w-full border rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-        />
-      </div>
-
-      {/* Job Description */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="jobDescription">
-          Job Description
-        </label>
-        <textarea
-          id="jobDescription"
-          rows="4"
-          value={jobDescription}
-          onChange={(e) => setJobDescription(e.target.value)}
-          className="w-full border rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-        />
-      </div>
-
-      {/* Job Type */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">Job Type</label>
-        <div className="flex space-x-4">
-          {['Full time', 'Contract', 'Internship'].map((type) => (
-            <label key={type} className="flex items-center">
-              <input
-                type="radio"
-                value={type}
-                checked={jobType === type}
-                onChange={() => setJobType(type)}
-                className="form-radio text-purple-600"
-              />
-              <span className="ml-2">{type}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Remote Options */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">Remote</label>
-        <div className="flex space-x-4">
-          {['Remote', 'On-site', 'Hybrid'].map((type) => (
-            <label key={type} className="flex items-center">
-              <input
-                type="radio"
-                value={type}
-                checked={remoteType === type}
-                onChange={() => setRemoteType(type)}
-                className="form-radio text-purple-600"
-              />
-              <span className="ml-2">{type}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Compensation */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">Compensation</label>
-        <div className="flex items-center space-x-2">
+    <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
+      <h2 className="text-xl font-bold mb-4">Edit Job</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="title" className="block text-sm font-medium text-gray-700">Job Title</label>
           <input
             type="text"
-            value={compensation}
-            onChange={(e) => setCompensation(e.target.value)}
-            className="w-full border rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            required
           />
-          <select
-            value={compensationType}
-            onChange={(e) => setCompensationType(e.target.value)}
-            className="border rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-          >
-            <option value="per year">per year</option>
-            <option value="per month">per month</option>
-          </select>
         </div>
-      </div>
-
-      {/* Skills Required */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">Skills required</label>
-        <div className="flex flex-wrap gap-2">
-          {skills.map((skill, index) => (
-            <span
-              key={index}
-              className="bg-gray-200 px-2 py-1 rounded-lg text-sm flex items-center"
-            >
-              {skill}
-              <button
-                type="button"
-                onClick={() => setSkills(skills.filter((s) => s !== skill))}
-                className="ml-2 text-red-500"
-              >
-                x
-              </button>
-            </span>
-          ))}
+        <div className="mb-4">
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            rows="4"
+            required
+          />
         </div>
-        <input
-          type="text"
-          placeholder="Type to search"
-          className="w-full border rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 mt-2"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && e.target.value) {
-              setSkills([...skills, e.target.value]);
-              e.target.value = '';
-            }
-          }}
-        />
-      </div>
-
-      {/* Location */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
-        <div className="flex flex-wrap gap-2">
-          {location.map((loc, index) => (
-            <span
-              key={index}
-              className="bg-gray-200 px-2 py-1 rounded-lg text-sm flex items-center"
-            >
-              {loc}
-              <button
-                type="button"
-                onClick={() => setLocation(location.filter((l) => l !== loc))}
-                className="ml-2 text-red-500"
-              >
-                x
-              </button>
-            </span>
-          ))}
+        <div className="mb-4">
+          <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            required
+          />
         </div>
-        <input
-          type="text"
-          placeholder="Type to search"
-          className="w-full border rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 mt-2"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && e.target.value) {
-              setLocation([...location, e.target.value]);
-              e.target.value = '';
-            }
-          }}
-        />
-      </div>
-
-      {/* Update Job Button */}
-      <button
-        type="submit"
-        className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-purple-700 transition duration-300"
-      >
-        Update job post
-      </button>
-    </form>
+        <div className="mb-4">
+          <label htmlFor="jobType" className="block text-sm font-medium text-gray-700">Job Type</label>
+          <input
+            type="text"
+            id="jobType"
+            name="jobType"
+            value={formData.jobType}
+            onChange={handleChange}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="compensation" className="block text-sm font-medium text-gray-700">Compensation</label>
+          <input
+            type="text"
+            id="compensation"
+            name="compensation"
+            value={formData.compensation}
+            onChange={handleChange}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="compensationType" className="block text-sm font-medium text-gray-700">Compensation Type</label>
+          <input
+            type="text"
+            id="compensationType"
+            name="compensationType"
+            value={formData.compensationType}
+            onChange={handleChange}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="skills" className="block text-sm font-medium text-gray-700">Skills</label>
+          <input
+            type="text"
+            id="skills"
+            name="skills"
+            value={formData.skills}
+            onChange={handleChange}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            required
+          />
+        </div>
+        <div className="flex justify-end space-x-2">
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">Save</button>
+          <button type="button" onClick={onClose} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700">Cancel</button>
+        </div>
+      </form>
+    </div>
   );
 };
 

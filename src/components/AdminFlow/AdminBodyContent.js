@@ -46,7 +46,7 @@ const AdminBodyContent = () => {
       content = <AdminSupport />;
       break;
     case 'logout':
-      navigate('/admin-create-account');
+      navigate('/Patner-create-account');
       return null;
     default:
       content = <div>Select a menu item</div>;

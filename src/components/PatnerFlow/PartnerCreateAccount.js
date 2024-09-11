@@ -7,13 +7,13 @@ import googleIcon from '../../assets/Google-icon.png';
 import facebookIcon from '../../assets/Facebook-icon.png';
 import appleIcon from '../../assets/Apple-icon.png';
 
+
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email address').required('Required'),
 });
 
-const AdminCreateAccount = () => {
+const PatnerCreateAccount = () => {
   const navigate = useNavigate();
-  console.log("AdminCreateAccount component rendered"); // For debugging
 
   return (
     <div className="flex flex-col sm:flex-row min-h-screen font-poppins">
@@ -21,19 +21,19 @@ const AdminCreateAccount = () => {
         <img
           src={createAccountImage}
           alt="Create Account"
-          className="w-[830px] h-[900px] object-cover rounded-lg"
+          className="w-[830px] h-[900px] object-cover rounded-lg "
         />
       </div>
       <div className="flex flex-col items-center justify-center p-8 w-full lg:w-1/2 bg-white">
         <div className="w-full max-w-md flex flex-col justify-center min-h-screen lg:min-h-full">
-          <h1 className="text-2xl font-semibold mb-6 text-center">Create a account</h1>
+          <h1 className="text-2xl font-semibold mb-6 text-center">Create a Patner account</h1>
           <Formik
             initialValues={{ email: '' }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 setSubmitting(false);
-                navigate('/next-screen'); // Adjust path if necessary
+                navigate('/patner-registration');
               }, 400);
             }}
           >
@@ -82,18 +82,13 @@ const AdminCreateAccount = () => {
             <span className="font-poppins font-semibold text-base leading-6">Sign Up with Apple</span>
           </button>
           <p className="text-center text-gray-500 font-poppins font-medium text-base leading-6">
-            Already have an account? 
-            <span 
-              onClick={() => navigate('/admin-login')} // Use navigate for redirection
-              className="text-blue-500 hover:underline cursor-pointer"
-            >
-              Login
-            </span>
+            Already have an account? <a href="/patner-login" className="text-blue-500 hover:underline">Login</a>
           </p>
         </div>
+
       </div>
     </div>
   );
 };
 
-export default AdminCreateAccount;
+export default PatnerCreateAccount;

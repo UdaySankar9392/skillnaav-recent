@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addJobPost } from '../../Redux/JobSlice'; // Make sure path is correct
 
-const AdminPostAJob = () => {
+const PartnerPostAJob = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     title: '',
@@ -215,4 +215,4 @@ const AdminPostAJob = () => {
   );
 };
 
-export default AdminPostAJob;
+export default PartnerPostAJob;

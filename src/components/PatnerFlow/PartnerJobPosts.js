@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faMapMarkerAlt, faClock, faDollarSign } from '@fortawesome/free-solid-svg-icons';
-import AdminUpdateJob from './AdminUpdateJob'; // Import the AdminUpdateJob component
+import PartnerUpdateJob from './PartnerUpdateJob'; // Import the AdminUpdateJob component
 import { updateJobPost } from '../../Redux/Action'; // Import the action to update job post
 
-const AdminJobPost = () => {
+const PartnerJobPost = () => {
   const jobPosts = useSelector((state) => state.jobs.jobPosts); // Get job posts from Redux store
   const dispatch = useDispatch(); // Get the dispatch function from Redux
   const [selectedJobId, setSelectedJobId] = useState(null); // State to hold the job ID being edited
@@ -33,7 +33,7 @@ const AdminJobPost = () => {
           <div key={job.id} className="relative">
             {selectedJobId === job.id ? (
               // Render the edit form only for the selected job
-              <AdminUpdateJob
+              <PartnerUpdateJob
                 job={job} // Pass the current job data for editing
                 onClose={handleCloseUpdate} // Close the edit form
                 onSave={handleUpdateJob}    // Save the updated job
@@ -88,4 +88,4 @@ const AdminJobPost = () => {
   );
 };
 
-export default AdminJobPost;
+export default PartnerJobPost;
