@@ -2,10 +2,10 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import createAccountImage from '../../../assets/login-image.png';
-import googleIcon from '../../../assets/Google-icon.png';
-import facebookIcon from '../../../assets/Facebook-icon.png';
-import appleIcon from '../../../assets/Apple-icon.png';
+import createAccountImage from '../../assets/login-image.png';
+import googleIcon from '../../assets/Google-icon.png';
+import facebookIcon from '../../assets/Facebook-icon.png';
+import appleIcon from '../../assets/Apple-icon.png';
 
 
 const validationSchema = Yup.object({

@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
-import loginImage from "../../../assets/login-image.png";
+import loginImage from "../../assets/login-image.png";
 import { GoogleLogin } from "@react-oauth/google";
 
 const validationSchema = Yup.object({
@@ -42,7 +42,7 @@ const LoginPage = () => {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 setSubmitting(false);
-                navigate("/verification"); // Navigate to verification code screen
+                navigate("/MainPage2"); // Navigate to verification code screen
               }, 400);
             }}
           >
@@ -115,7 +115,7 @@ const LoginPage = () => {
           <p className="text-center text-gray-500 font-poppins font-medium text-base leading-6">
             Don't have an account?{" "}
             <Link
-              to="/create-account"
+              to="/next-screen"
               className="text-blue-500 hover:underline"
             >
               Sign up

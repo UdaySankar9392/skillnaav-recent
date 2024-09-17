@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import Homeimage from "../../assets/Home-Image.png";
+import code from "../../assets/code.png";
+import denside from "../../assets/denside.png";
+import gradient from "../../assets/gradient.png";
+import tech from "../../assets/tech.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faClock, faDollarSign, faHeart } from '@fortawesome/free-solid-svg-icons';
 import ApplyCards from './ApplyCards';
@@ -18,6 +22,7 @@ const Home = () => {
       duration: 'Internship • 3 months',
       salary: '30k per month',
       field: 'Computer science engineering',
+      image: tech, // Add image path
     },
     {
       jobTitle: 'Software Engineer Intern',
@@ -27,6 +32,7 @@ const Home = () => {
       duration: 'Internship • 6 months',
       salary: '35k per month',
       field: 'Software Engineering',
+      image: code, // Add image path
     },
     {
       jobTitle: 'Web Developer',
@@ -36,6 +42,7 @@ const Home = () => {
       duration: 'Full-time • 12 months',
       salary: '45k per month',
       field: 'Web Development',
+      image: denside, // Add image path
     },
     {
       jobTitle: 'UX/UI Designer',
@@ -45,8 +52,8 @@ const Home = () => {
       duration: 'Full-time • 24 months',
       salary: '50k per month',
       field: 'Design',
+      image: gradient, // Add image path
     },
-    
     // Add other jobs
   ];
 
@@ -72,8 +79,9 @@ const Home = () => {
         <ApplyCards job={selectedJob} onBack={handleBack} />
       ) : (
         <>
-          <div className="relative w-full h-96">
-            <img src={Homeimage} alt="Finding Your Dream Job" className="w-full h-full " />
+          {/* Header Section */}
+          <div className="relative w-1132px h-250px">
+            <img src={Homeimage} alt="Finding Your Dream Job" className="w-full h-full object-cover" />
           </div>
 
           <section className="py-10 px-6">
@@ -95,7 +103,7 @@ const Home = () => {
                     </button>
                   </div>
                   <div className="flex items-center mb-4">
-                    <img src="/path-to-company-logo.png" alt="Company Logo" className="w-12 h-12 rounded-full mr-4" />
+                    <img src={job.image} alt={`${job.company} logo`} className="w-12 h-12 rounded-full mr-4" />
                     <div>
                       <h3 className="text-xl font-semibold">{job.jobTitle}</h3>
                       <p className="text-gray-600">{job.company} • {index + 1}d ago</p>

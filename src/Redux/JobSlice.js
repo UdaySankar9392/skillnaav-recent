@@ -12,8 +12,16 @@ const jobSlice = createSlice({
     addJobPost: (state, action) => {
       state.jobPosts.push(action.payload);
     },
+    updateJobPost: (state, action) => {
+      state.jobPosts = state.jobPosts.map(job =>
+        job.id === action.payload.id ? action.payload : job
+      );
+    },
+    deleteJobPost: (state, action) => {
+      state.jobPosts = state.jobPosts.filter(job => job.id !== action.payload);
+    },
   },
 });
 
-export const { addJobPost } = jobSlice.actions;
+export const { addJobPost, updateJobPost, deleteJobPost } = jobSlice.actions;
 export default jobSlice.reducer;

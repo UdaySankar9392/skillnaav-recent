@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import loginImage from '../../../assets/login-image.png'; // Adjust the path to your image
+import loginImage from '../../assets/login-image.png'; // Adjust the path to your image
 import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
 
 const VerificationCode = () => {

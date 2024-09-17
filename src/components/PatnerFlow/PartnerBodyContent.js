@@ -1,4 +1,3 @@
-// src/components/PartnerFlow/PartnerBodyContent.js
 import React from 'react';
 import { usePartnerContext } from './PartnerContextApi/PartnerContext';
 import PartnerJobPosts from './PartnerJobPosts';
@@ -29,7 +28,7 @@ const PartnerBodyContent = () => {
       content = <PartnerSupport />;
       break;
     default:
-      content = <div>Select a menu item</div>;
+      content = <PartnerJobPosts/>;
   }
 
   return (

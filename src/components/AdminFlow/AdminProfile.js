@@ -1,203 +1,254 @@
-import React, { useState } from 'react';
-import UnsavedChangesModal from './AdminProfileForm';
+import React, { useState, useRef } from "react";
 
-const AdminProfileForm = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+// Email Verification Modal Component
+const EmailVerificationModal = ({ isOpen, onClose, onVerify }) => {
+  const [code, setCode] = useState(["", "", "", ""]);
+  const inputRefs = useRef([]);
 
-  const handleSave = () => {
-    setIsModalOpen(true); // Open the modal when the Save button is clicked
+  const handleInputChange = (index, value) => {
+    if (!/^[0-9]?$/.test(value)) return;
+    const newCode = [...code];
+    newCode[index] = value;
+    setCode(newCode);
+
+    if (value && index < code.length - 1) {
+      inputRefs.current[index + 1]?.focus();
+    }
+
+    if (!value && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
   };
 
-  const handleDiscard = () => {
-    setIsModalOpen(false); // Close the modal without saving
+  const handleKeyPress = (e, index) => {
+    if (e.key === "Backspace" && !code[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
   };
 
-  const handleConfirmSave = () => {
-    // Your save logic here
-    setIsModalOpen(false); // Close the modal after saving
+  const handleVerifyCode = () => {
+    const enteredCode = code.join("");
+    onVerify(enteredCode);
   };
+
+  if (!isOpen) return null;
 
   return (
-    <div className="min-h-screen bg-white-50 flex items-center justify-center font-poppins">
-      <div className="relative w-full max-w-4xl bg-white p-8 rounded-lg">
-        {/* Action buttons */}
-        <div className="absolute top-4 right-4 flex space-x-4">
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+        <div className="flex flex-col items-center mb-4">
+          <div className="bg-purple-100 p-2 rounded-full mb-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-8 h-8 text-purple-600"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M16 12V8a4 4 0 00-8 0v4H5l.889 8H18.11L19 12h-3z"
+              />
+            </svg>
+          </div>
+          <h3 className="text-lg font-semibold text-center">Please check your email</h3>
+          <p className="text-sm text-gray-500 text-center mb-4">
+            We've sent a code to olivia@untitledui.com
+          </p>
+
+          {/* Code input fields */}
+          <div className="flex space-x-2 mb-4">
+            {code.map((digit, index) => (
+              <input
+                key={index}
+                type="text"
+                value={digit}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyPress(e, index)}
+                ref={(el) => (inputRefs.current[index] = el)}
+                maxLength="1"
+                className="w-12 h-12 text-2xl text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            ))}
+          </div>
+
+          <p className="text-xs text-gray-500">
+            Didn’t get a code?{" "}
+            <button className="text-purple-600 hover:underline">Click to resend</button>
+          </p>
+        </div>
+
+        <div className="flex justify-between mt-4">
           <button
-            type="button"
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+            onClick={onClose}
           >
             Cancel
           </button>
           <button
-            type="button"
-            className="px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            onClick={handleSave}
+            className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+            onClick={handleVerifyCode}
           >
-            Save
+            Verify
           </button>
         </div>
-
-        <form className="w-full">
-          {/* Form content */}
-          <h2 className="text-2xl font-semibold mb-1 text-gray-800">Your profile</h2>
-          <p className="text-gray-500 mb-6">Update your photo and personal details here.</p>
-
-          {/* Full name */}
-          <div className="flex flex-wrap gap-6 mb-6">
-            <div className="flex flex-col flex-grow">
-              <label htmlFor="fullName" className="text-gray-700 font-medium mb-2">Full name</label>
-              <input
-                type="text"
-                id="fullName"
-                placeholder="Oliva James"
-                className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full"
-              />
-            </div>
-
-            {/* Email address */}
-            <div className="flex flex-col flex-grow">
-              <label htmlFor="email" className="text-gray-700 font-medium mb-2">Email address</label>
-              <div className="relative">
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="Oliva@gmail.com"
-                  className="pl-10 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full"
-                />
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016.528 3H3.472a2 2 0 00-1.469 2.884zM18 8.118l-8 4-8-4V13a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                  </svg>
-                </span>
-              </div>
-            </div>
-          </div>
-           {/* Photo upload */}
-          <div className="mb-6 flex flex-col sm:flex-row items-center">
-            <label htmlFor="photo" className="text-gray-700 font-medium mb-2 sm:w-1/4">Your photo</label>
-            <div className="flex-1 flex items-center justify-center">
-              <div className="relative w-24 h-24 rounded-full overflow-hidden">
-                <img src="https://via.placeholder.com/150" alt="Profile" className="w-full h-full object-cover"/>
-              </div>
-              <div className="ml-4">
-                <label
-                  htmlFor="photo"
-                  className="flex flex-col items-center cursor-pointer text-purple-600 hover:text-purple-700">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16.928V13a4 4 0 014-4h8a4 4 0 014 4v3.928a2 2 0 01-1.052 1.754l-6.633 3.317a4 4 0 01-3.63 0l-6.633-3.317A2 2 0 014 16.928z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 12v.01M12 6v6M12 18h0" />
-                  </svg>
-                  <span className="text-sm font-medium">Click to upload</span>
-                  <span className="text-sm text-gray-500">or drag and drop</span>
-                  <span className="text-sm text-gray-400 mt-1">PNG, JPG (max. 800x400px)</span>
-                  <input type="file" id="photo" className="hidden" />
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {/* Date of birth */}
-          <div className="mb-6 flex flex-col sm:flex-row">
-            <label htmlFor="dob" className="text-gray-700 font-medium mb-2 sm:w-1/4">Date of birth</label>
-            <input
-              type="date"
-              id="dob"
-              placeholder="03/05/1998"
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-3/4"
-            />
-          </div>
-
-          {/* Field of Study */}
-          <div className="mb-6 flex flex-col sm:flex-row">
-            <label htmlFor="fieldOfStudy" className="text-gray-700 font-medium mb-2 sm:w-1/4">Field of Study</label>
-            <select
-              id="fieldOfStudy"
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-3/4"
-            >
-              <option>Mechanical Engineering</option>
-              <option>Computer Science</option>
-              <option>Business Administration</option>
-            </select>
-          </div>
-
-          {/* Current level of education */}
-          <div className="mb-6 flex flex-col sm:flex-row">
-            <label className="text-gray-700 font-medium mb-2 sm:w-1/4">Current level of education</label>
-            <div className="flex items-center w-full sm:w-3/4">
-              <div className="flex items-center mr-6">
-                <input
-                  type="radio"
-                  id="highschool"
-                  name="educationLevel"
-                  className="form-radio text-purple-500"
-                />
-                <label htmlFor="highschool" className="ml-2 text-gray-700">Highschool</label>
-              </div>
-              <div className="flex items-center mr-6">
-                <input
-                  type="radio"
-                  id="undergraduate"
-                  name="educationLevel"
-                  className="form-radio text-purple-500"
-                />
-                <label htmlFor="undergraduate" className="ml-2 text-gray-700">Undergraduate</label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  type="radio"
-                  id="graduate"
-                  name="educationLevel"
-                  className="form-radio text-purple-500"
-                />
-                <label htmlFor="graduate" className="ml-2 text-gray-700">Graduate</label>
-              </div>
-            </div>
-          </div>
-
-          {/* Desired field of internship/job */}
-          <div className="mb-6 flex flex-col sm:flex-row">
-            <label htmlFor="desiredField" className="text-gray-700 font-medium mb-2 sm:w-1/4">Desired field of internship/job</label>
-            <select
-              id="desiredField"
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-3/4"
-            >
-              <option>Mechanical Engineering</option>
-              <option>Software Development</option>
-              <option>Marketing</option>
-            </select>
-          </div>
-
-          {/* LinkedIn profile */}
-          <div className="mb-6 flex flex-col sm:flex-row">
-            <label htmlFor="linkedin" className="text-gray-700 font-medium mb-2 sm:w-1/4">LinkedIn profile</label>
-            <input
-              type="url"
-              id="linkedin"
-              placeholder="www.linkedin.com/in/yourprofile"
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-3/4"
-            />
-          </div>
-
-          {/* Portfolio link */}
-          <div className="mb-6 flex flex-col sm:flex-row">
-            <label htmlFor="portfolio" className="text-gray-700 font-medium mb-2 sm:w-1/4">Portfolio link</label>
-            <input
-              type="url"
-              id="portfolio"
-              placeholder="www.behance.net/yourportfolio"
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-3/4"
-            />
-          </div>
-         
-        </form>
       </div>
-
-      {/* Render the UnsavedChangesModal if isModalOpen is true */}
-      {isModalOpen && (
-        <UnsavedChangesModal onSave={handleConfirmSave} onDiscard={handleDiscard} />
-      )}
     </div>
   );
 };
 
-export default AdminProfileForm;
+// Unsaved Changes Modal Component
+const UnsavedChangesModal = ({ isOpen, onClose, onSave }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+        <div className="flex flex-col items-center mb-4">
+          <h3 className="text-lg font-semibold text-center">You have unsaved changes</h3>
+          <p className="text-sm text-gray-500 text-center mb-4">
+            Do you want to save the changes you made before closing?
+          </p>
+        </div>
+
+        <div className="flex justify-between mt-4">
+          <button
+            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+            onClick={onClose}
+          >
+            Discard
+          </button>
+          <button
+            className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+            onClick={onSave}
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Main Profile Form Component
+const ProfileForm = () => {
+  const [profileImage, setProfileImage] = useState(null);
+  const [formData, setFormData] = useState({
+    university: "Tesla Inc",
+    institutionalId: "XXXXXXX",
+    email: "Oliva@gmail.com",
+  });
+  const [isUnsavedModalOpen, setIsUnsavedModalOpen] = useState(false);
+  const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSaveClick = () => {
+    setIsUnsavedModalOpen(true);
+  };
+
+  const handleDiscard = () => {
+    setIsUnsavedModalOpen(false);
+  };
+
+  const handleSaveChanges = () => {
+    setIsUnsavedModalOpen(false);
+    setIsVerificationModalOpen(true);
+  };
+
+  const handleVerifyCode = (enteredCode) => {
+    console.log("Verification code entered:", enteredCode);
+    setIsVerificationModalOpen(false);
+    // Implement verification logic here
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md font-poppins">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-semibold">Your profile</h2>
+        <div className="flex space-x-4">
+          <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md">Cancel</button>
+          <button
+            className="bg-purple-600 text-white px-4 py-2 rounded-md"
+            onClick={handleSaveClick}
+          >
+            Save
+          </button>
+        </div>
+      </div>
+      <p className="text-sm text-gray-500 mb-6">Update your photo and personal details here.</p>
+
+      {/* Photo Upload */}
+      <div className="flex flex-col mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2">Your photo</label>
+        <p className="text-sm text-gray-500 mb-6">This Will be Display on your profile</p>
+        <div className="w-full border-dashed border-2 border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center">
+          {profileImage ? (
+            <img src={profileImage} alt="Profile" className="w-24 h-24 object-cover rounded-full mb-4" />
+          ) : (
+            <div className="w-24 h-24 bg-gray-100 rounded-full mb-4" />
+          )}
+          <input
+            type="file"
+            onChange={handleImageUpload}
+            className="hidden"
+            id="file-upload"
+          />
+          <label
+            htmlFor="file-upload"
+            className="cursor-pointer bg-gray-200 text-gray-600 px-4 py-2 rounded-md"
+          >
+            Click to upload
+          </label>
+        </div>
+      </div>
+
+      {/* Email */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+        />
+      </div>
+
+      {/* Unsaved Changes Modal */}
+      <UnsavedChangesModal
+        isOpen={isUnsavedModalOpen}
+        onClose={handleDiscard}
+        onSave={handleSaveChanges}
+      />
+
+      {/* Email Verification Modal */}
+      <EmailVerificationModal
+        isOpen={isVerificationModalOpen}
+        onClose={() => setIsVerificationModalOpen(false)}
+        onVerify={handleVerifyCode}
+      />
+    </div>
+  );
+};
+
+export default ProfileForm;

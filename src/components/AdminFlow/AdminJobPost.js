@@ -2,28 +2,33 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faMapMarkerAlt, faClock, faDollarSign } from '@fortawesome/free-solid-svg-icons';
-import AdminUpdateJob from './AdminUpdateJob'; // Import the AdminUpdateJob component
-import { updateJobPost } from '../../Redux/Action'; // Import the action to update job post
+import AdminUpdateJob from './AdminUpdateJob';
+import { updateJobPost, deleteJobPost } from '../../Redux/JobSlice'; // Ensure correct import path
 
 const AdminJobPost = () => {
-  const jobPosts = useSelector((state) => state.jobs.jobPosts); // Get job posts from Redux store
-  const dispatch = useDispatch(); // Get the dispatch function from Redux
-  const [selectedJobId, setSelectedJobId] = useState(null); // State to hold the job ID being edited
+  const jobPosts = useSelector((state) => state.jobs.jobPosts);
+  const dispatch = useDispatch();
+  const [editingJobId, setEditingJobId] = useState(null); // Track the currently editing job
 
-  // Handle clicking the Edit button for a specific job
+  // Handle clicking the Edit button
   const handleEditClick = (jobId) => {
-    setSelectedJobId(jobId); // Set the jobId of the job being edited
+    setEditingJobId(jobId); // Set the ID of the job being edited
   };
 
   // Handle closing the update form
   const handleCloseUpdate = () => {
-    setSelectedJobId(null); // Clear the selected jobId, closing the edit form
+    setEditingJobId(null); // Clear the editing state
   };
 
-  // Handle saving the updated job data
+  // Handle saving the updated job
   const handleUpdateJob = (updatedJob) => {
-    dispatch(updateJobPost(updatedJob)); // Dispatch the updated job to Redux store
-    setSelectedJobId(null); // Clear the edit mode after saving
+    dispatch(updateJobPost(updatedJob)); // Dispatch update action
+    setEditingJobId(null); // Clear the editing state
+  };
+
+  // Handle deleting a job post
+  const handleDeleteClick = (jobId) => {
+    dispatch(deleteJobPost(jobId)); // Dispatch delete action
   };
 
   return (
@@ -31,34 +36,33 @@ const AdminJobPost = () => {
       <div className="grid grid-cols-2 gap-6">
         {jobPosts.map((job) => (
           <div key={job.id} className="relative">
-            {selectedJobId === job.id ? (
-              // Render the edit form only for the selected job
+            {editingJobId === job.id ? (
               <AdminUpdateJob
-                job={job} // Pass the current job data for editing
-                onClose={handleCloseUpdate} // Close the edit form
-                onSave={handleUpdateJob}    // Save the updated job
+                job={job}
+                onClose={handleCloseUpdate}
+                onSave={handleUpdateJob}
               />
             ) : (
-              // Default job card display when not editing
               <div className="border rounded-lg p-4 shadow-md bg-white flex items-start relative">
                 <div className="w-16 h-16 mr-4">
                   <img
-                    src={job.profileImage || 'default-profile.png'} // Default image
+                    src={job.profileImage || 'default-profile.png'}
                     alt="Profile"
                     className="w-full h-full object-cover rounded-full"
                   />
                 </div>
                 <div className="flex-1">
                   <div className="absolute top-2 right-2 flex space-x-2">
-                    {/* Edit Button */}
                     <button
                       className="text-blue-500 hover:text-blue-700"
-                      onClick={() => handleEditClick(job.id)} // Set the jobId as selected
+                      onClick={() => handleEditClick(job.id)} // Open update form for specific job
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
-                    {/* Delete Button */}
-                    <button className="text-red-500 hover:text-red-700">
+                    <button
+                      className="text-red-500 hover:text-red-700"
+                      onClick={() => handleDeleteClick(job.id)} // Delete the specific job post
+                    >
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </div>
@@ -76,7 +80,7 @@ const AdminJobPost = () => {
                     {job.compensation} {job.compensationType}
                   </p>
                   <p>Skills: {job.skills}</p>
-                  <p>Job ID: #{job.id}</p> {/* Display the job id */}
+                  <p>Job ID: #{job.id}</p>
                   <button className="text-purple-500 hover:text-purple-700">View details</button>
                 </div>
               </div>

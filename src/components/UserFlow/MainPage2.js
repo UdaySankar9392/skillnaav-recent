@@ -1,8 +1,8 @@
   import React from 'react';
   import Navbar from './Navbar';
   import Sidebar from './Sidebar';
-  import BodyContent from './BodyContent';
-  import { TabProvider } from './HomePageContext/HomePageContext'; // Correct path
+  import BodyContent from '../UserFlow/BodyContent';
+  import { TabProvider } from '../UserFlow/HomePageContext/HomePageContext'; // Correct path
 
   const MainPage2 = () => {
     return (

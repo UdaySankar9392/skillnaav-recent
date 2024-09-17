@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { useAdminContext } from './AdminContextApi/AdminContext';
+import { useTabContext } from './HomePageContext/HomePageContext';
 
 const Navbar = () => {
-  const { selectedMenu, setSelectedMenu } = useAdminContext();
+  const { fine } = useTabContext();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleUserClick = () => {
-    setIsDropdownOpen(prev => !prev);
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleLogout = () => {

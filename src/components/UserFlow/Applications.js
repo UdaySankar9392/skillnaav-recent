@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTabContext } from './HomePageContext/HomePageContext';
+import { useTabContext } from '../UserFlow/HomePageContext/HomePageContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faMapMarkerAlt, faClock, faDollarSign } from '@fortawesome/free-solid-svg-icons';
 

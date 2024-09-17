@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaHeart, FaShareAlt, FaMapMarkerAlt, FaBriefcase, FaDollarSign } from 'react-icons/fa';
-import { useTabContext } from './HomePageContext/HomePageContext';
+import { useTabContext } from '../UserFlow/HomePageContext/HomePageContext';
 
 const ApplyCards = ({ job, onBack }) => {
   const { savedJobs, applications, saveJob, removeJob, applyJob } = useTabContext();

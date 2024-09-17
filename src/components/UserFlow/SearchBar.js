@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaSearch, FaFilter, FaTimes } from 'react-icons/fa';
-import FilterModal from './Filter'; // Updated path
-import Card from './Card';
+import FilterModal from '../UserFlow/Filter'; // Updated path
+import Card from '../UserFlow/Card';
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');

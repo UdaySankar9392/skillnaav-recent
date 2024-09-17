@@ -10,7 +10,7 @@ const AdminPostAJob = () => {
     jobType: '',
     remote: '',
     compensation: '',
-    compensationType: 'per year',
+    compensationType: '',
     skills: '',
     location: '',
   });
@@ -25,7 +25,7 @@ const AdminPostAJob = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isFormValid()) {

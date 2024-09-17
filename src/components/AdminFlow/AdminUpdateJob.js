@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const AdminUpdateJob = ({ job, onClose, onSave }) => {
   const [formData, setFormData] = useState({ ...job });
+
+  useEffect(() => {
+    setFormData({ ...job }); // Sync formData with the job prop
+  }, [job]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -10,8 +14,7 @@ const AdminUpdateJob = ({ job, onClose, onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Call the onSave function to update the job
-    onSave(formData); // Pass updated form data
+    onSave(formData); // Call the onSave function with updated data
   };
 
   return (

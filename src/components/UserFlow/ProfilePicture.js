@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import uploadButtonIcon from "../../../../assets/Upload-button.png"; // Adjust path if needed
+import uploadButtonIcon from "../../assets/Upload-button.png"; // Adjust path if needed
 
 const ProfilePictureForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -38,7 +38,7 @@ const ProfilePictureForm = ({ onSubmit }) => {
   const handleSubmit = () => {
     if (isFormValid()) {
       // onSubmit();
-      navigate("/MainPage"); // Navigate to the homepage after form submission
+      navigate("/MainPage2"); // Navigate to the homepage after form submission
     }
   };
 

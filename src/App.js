@@ -2,27 +2,31 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { counterContext } from "./context/context";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import CreateAccount from "./components/UserFlow/SignUpLogin/CreateAccount";
-import LoginPage from "./components/UserFlow/SignUpLogin/CreateAccountWithValidation";
-import NextScreen from "./components/UserFlow/SignUpLogin/NextScreen";
-import VerificationCode from "./components/UserFlow/SignUpLogin/VerificationCode";
-import Profilebuilding from "./components/UserFlow/SignUpLogin/ProfileBuilding/ProfileForm";
-import ProfilePicture from "./components/UserFlow/SignUpLogin/ProfileBuilding/ProfilePicture";
+import CreateAccount from "./components/UserFlow/CreateAccount";
+import LoginPage from "./components/UserFlow/CreateAccountWithValidation";
+import NextScreen from "./components/UserFlow/NextScreen";
+import VerificationCode from "./components/UserFlow/VerificationCode";
+import Profilebuilding from "./components/UserFlow/ProfileForm";
+import ProfilePicture from "./components/UserFlow/ProfilePicture";
+import MainPage2 from "./components/UserFlow/MainPage2";
+import { AdminProvider } from './components/AdminFlow/AdminContextApi/AdminContext';
+
 import AdminCreateAccount from "./components/AdminFlow/AdminCreateAccount";
 import AdminLogin from "./components/AdminFlow/AdminLogin";
 import AdminVerificationCode from "./components/AdminFlow/AdminVerificationCode";
 import AdminMain from "./components/AdminFlow/AdminMain";
+
 import PatnerCreateAccount from "./components/PatnerFlow/PartnerCreateAccount";
 import PatnerRegistration from "./components/PatnerFlow/PartnerRegistration";
 import PatnerLogin from "./components/PatnerFlow/PartnerLogin";
 import PatnerVerification from "./components/PatnerFlow/PartnerVerification";
-import PatnerProfile from "./components/PatnerFlow/PartnerProfile";
+import PatnerProfileBuilding from "./components/PatnerFlow/PartnerProfileBuilding";
 import PartnerMain from "./components/PatnerFlow/PartnerMain";
 
 import Cards from "./components/HomePage/Cards";
 import JobPosting from "./components/HomePage/JobPosting";
-import MainPage2 from "./components/HomePage2/MainPage2";
-import { AdminProvider } from './components/AdminFlow/AdminContextApi/AdminContext';
+
+
 
 
 const App = () => {
@@ -61,7 +65,7 @@ const App = () => {
               <Route path="/patner-registration" element={<PatnerRegistration />} />
               <Route path="/patner-login" element={<PatnerLogin />} />
               <Route path="/patner-verification" element={<PatnerVerification />} />
-              <Route path="/patner-profile" element={<PatnerProfile />} />
+              <Route path="/patner-profile" element={<PatnerProfileBuilding />} />
               <Route path="/partner-main" element={<PartnerMain />} />
 
               {/* Job and Cards */}
